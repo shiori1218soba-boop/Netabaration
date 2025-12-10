@@ -1,0 +1,36 @@
+<div class="container mt-5" style="max-width: 800px;">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="fw-bold"><%= @post.title %></h3>
+
+    <div>
+      <%= link_to "編集", edit_public_post_path(@post), class: "btn btn-outline-primary btn-sm me-2" %>
+      <%= link_to "削除", public_post_path(@post),
+          method: :delete,
+          data: { confirm: "本当に削除しますか？" },
+          class: "btn btn-outline-danger btn-sm" %>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+
+      <p class="text-muted small">
+        投稿日：<%= l(@post.created_at, format: :long) %><br>
+        更新日：<%= l(@post.updated_at, format: :long) %>
+      </p>
+
+      <hr>
+
+      <p class="fs-5" style="white-space: pre-wrap;">
+        <%= @post.body %>
+      </p>
+
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "一覧に戻る", public_posts_path, class: "btn btn-secondary" %>
+  </div>
+
+</div>
