@@ -1,5 +1,6 @@
 class Public::PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :correct_user, only: [:edit, :update, :destroy]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   def index
     @posts = Post.all.order(created_at: :desc)
@@ -51,4 +52,13 @@ class Public::PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :body)
   end
+
+  def correct_user
+    @post = Post.find(params[:id])
+    unless @post.user_id == current_user.id
+      flash[:alert] = "権限がありません。"
+      redirect_to public_posts_path
+    end
+  end
+
 end
