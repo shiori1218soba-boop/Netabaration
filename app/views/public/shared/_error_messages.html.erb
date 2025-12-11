@@ -1,0 +1,14 @@
+<% if resource.errors.any? %>
+  <div class="alert alert-danger border-danger shadow-sm">
+    <div class="d-flex align-items-center mb-2">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <strong><%= resource.class.name %> にエラーがあります</strong>
+    </div>
+
+    <ul class="mb-0 ps-3">
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

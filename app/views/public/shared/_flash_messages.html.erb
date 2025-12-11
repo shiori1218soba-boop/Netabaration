@@ -1,0 +1,13 @@
+<% if flash[:alert].present? %>
+  <div class="alert alert-danger border-danger shadow-sm">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<% if flash[:notice].present? %>
+  <div class="alert alert-success border-success shadow-sm">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <%= flash[:notice] %>
+  </div>
+<% end %>

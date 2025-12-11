@@ -1,10 +1,12 @@
 <div class="container mt-5" style="max-width: 450px;">
   <h2 class="mb-4 text-center">ログイン</h2>
 
+  <%= render "public/shared/flash_messages" %>
+  
   <div class="card shadow-sm">
     <div class="card-body">
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <%= render "users/shared/error_messages", resource: resource %>
+        <%= render "public/shared/error_messages", resource: resource %>
 
         <!-- メールアドレス -->
         <div class="mb-3">
