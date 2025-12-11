@@ -29,5 +29,11 @@
   <% if @posts.empty? %>
     <p class="text-muted">投稿はまだありません。</p>
   <% end %>
-
+  <div class="text-end">
+    <%= link_to "退会する",
+                withdraw_user_path,
+                method: :patch,
+                data: { confirm: "本当に退会しますか？\n投稿データは閲覧不可になります。" },
+                class: "btn btn-danger" %>
+  </div>
 </div>

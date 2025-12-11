@@ -13,16 +13,22 @@
 
     <div class="row g-4">
       <% @posts.each do |post| %>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-4 mb-4">
           <div class="card h-100 shadow-sm border-0">
 
             <div class="card-body">
               <h5 class="card-title fw-bold">
-                <%= link_to post.title, public_post_path(post), class: "text-decoration-none text-dark" %>
+                <%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %>
               </h5>
+
+
 
               <p class="card-text text-muted small">
                 <%= truncate(post.body, length: 60) %>
+              </p>
+
+              <p class="text-muted small mb-1">
+                投稿者：<%= post.user.name %>
               </p>
 
               <p class="text-muted small mb-0">
