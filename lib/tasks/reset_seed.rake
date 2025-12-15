@@ -11,9 +11,10 @@ namespace :db do
       next
     end
 
-    # 管理者アカウントは残す例
+    # 管理者アカウントは残す
     puts "非管理者ユーザーを削除中…"
-    User.where(admin: false).destroy_all
+    # User.where(admin: false).destroy_all
+    User.destroy_all
 
     puts "全投稿を削除中…"
     Post.destroy_all
