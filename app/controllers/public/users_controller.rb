@@ -68,7 +68,7 @@ class Public::UsersController < ApplicationController
     reset_session
 
     # ログイン画面へ
-    redirect_to new_user_session_path, notice: "退会処理が完了しました。"
+    redirect_to new_user_registration_path, notice: "退会処理が完了しました。"
   end
 
   private
