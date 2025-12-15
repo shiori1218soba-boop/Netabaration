@@ -10,7 +10,8 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts
+    # 論理削除されていない投稿だけを取得
+    @posts = @user.posts.where(deleted_at: nil).order(created_at: :desc)
   end
 
   def index
