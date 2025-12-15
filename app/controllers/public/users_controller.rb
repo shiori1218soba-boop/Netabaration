@@ -58,10 +58,17 @@ class Public::UsersController < ApplicationController
 
   # 退会処理（論理削除）
   def withdraw
-    current_user.withdraw!
-    sign_out current_user
+    user = current_user   # current_userをローカル変数に退避
+
+    # 論理削除
+    user.withdraw!
+
+    # サインアウトしてセッションリセット
+    sign_out user
     reset_session
-    redirect_to new_user_session, notice: "退会処理が完了しました。"
+
+    # ログイン画面へ
+    redirect_to new_user_session_path, notice: "退会処理が完了しました。"
   end
 
   private
