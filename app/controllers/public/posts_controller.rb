@@ -1,5 +1,5 @@
 class Public::PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, only: [:show, :new, :create, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
@@ -35,7 +35,7 @@ class Public::PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirect_to posts_path, notice: "投稿を削除しました。"
+    redirect_to mypage_path, notice: "投稿を削除しました。"
   end
 
   def create

@@ -1,20 +1,14 @@
 <div class="container mt-4">
 
-  <h2 class="mb-4">マイページ</h2>
-
-  <!-- ユーザー情報カード -->
-  <div class="card mb-4 shadow-sm">
-    <div class="card-body">
-      <h4 class="card-title"><%= @user.name %> さん</h4>
-      <p class="card-text text-muted"><%= @user.email %></p>
-      <p class="card-text"><%= @user.introduction %></p>
-
-      <%= link_to "ユーザー情報を編集", edit_user_information_path,
-          class: "btn btn-primary" %>
+  <h2 class="mb-4"><%= @user.name %>さんの詳細</h2>
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <p class="card-text"><%= simple_format(@user.introduction.presence || "ユーザー紹介はまだありません") %></p>
+      </div>
     </div>
-  </div>
 
-  <h3 class="mb-3">あなたの投稿一覧</h3>
+
+  <h3 class="mb-3"><%= @user.name %>さんの投稿一覧</h3>
 
   <!-- 投稿一覧 -->
   <% @posts.each do |post| %>

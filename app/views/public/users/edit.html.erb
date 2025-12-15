@@ -3,7 +3,17 @@
 
   <div class="card shadow-sm">
     <div class="card-body">
-      <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |f| %>
+      <% if @user.errors.any? %>
+        <div class="alert alert-danger">
+          <h5><%= @user.errors.count %>件のエラーがあります</h5>
+          <ul class="mb-0">
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <%= form_with model: @user, url: user_information_path, method: :patch, local: true do |f| %>
 
         <div class="mb-3">
           <%= f.label :name, "ユーザー名" %>
@@ -15,9 +25,22 @@
           <%= f.email_field :email, class: "form-control" %>
         </div>
 
+        <div class="mb-3">
+          <%= f.label :email, "ユーザー紹介" %>
+          <%= f.text_field :introduction, class: "form-control" %>
+        </div>
+
         <%= f.submit "更新する", class: "btn btn-primary" %>
 
       <% end %>
     </div>
+  </div>
+
+  <div class="text-end mt-4">
+    <%= link_to "退会する",
+                withdraw_user_path,
+                method: :patch,
+                data: { confirm: "本当に退会しますか？\n投稿データは閲覧不可になります。" },
+                class: "btn btn-danger" %>
   </div>
 </div>

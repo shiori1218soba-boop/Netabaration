@@ -8,15 +8,33 @@ class Public::UsersController < ApplicationController
     @posts = current_user.posts.where(deleted_at: nil).order(created_at: :desc)
   end
 
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts
+  end
+
+  def index
+    @user = User.all
+  end
+
   # ユーザー編集
   def edit
     @user = current_user
+
+    unless @user == current_user
+      redirect_to mypage_path, alert: "不正なアクセスです"
+    end
   end
 
   # 更新処理
   def update
     @user = current_user
     was_inactive = @user.is_active == false
+
+    unless @user == current_user
+      redirect_to mypage_path, alert: "不正なアクセスです"
+      return
+    end
 
     if @user.update(user_params)
       # 退会状態 → アクティブに戻った時だけ投稿も復元
@@ -40,25 +58,16 @@ class Public::UsersController < ApplicationController
 
   # 退会処理（論理削除）
   def withdraw
-    @user = current_user
-
-    # ユーザー論理削除
-    @user.update(is_active: false)
-
-    # ユーザーの投稿も論理削除
-    @user.posts.update_all(deleted_at: Time.current)
-
-    # サインアウト
-    sign_out @user
+    current_user.withdraw!
+    sign_out current_user
     reset_session
-
-    redirect_to root_path, notice: "退会処理が完了しました。"
+    redirect_to new_user_session, notice: "退会処理が完了しました。"
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:name, :email, :introduction, :is_active)
   end
 
 end

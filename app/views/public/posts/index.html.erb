@@ -28,7 +28,7 @@
               </p>
 
               <p class="text-muted small mb-1">
-                投稿者：<%= post.user.name %>
+                投稿者：<%= link_to post.user.name, user_path(post.user) %>
               </p>
 
               <p class="text-muted small mb-0">

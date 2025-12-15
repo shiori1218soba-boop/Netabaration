@@ -17,9 +17,14 @@ Rails.application.routes.draw do
 
     # マイページ
     get 'mypage' => 'users#mypage'
+    # マイプロフィール編集
+    get  "users/information/edit", to: "users#edit",   as: :edit_user_information
+    patch "users/information",      to: "users#update", as: :user_information
 
+    get   "users/unsubscribe", to: "users#unsubscribe"
+    patch "users/withdraw",    to: "users#withdraw"
     # ユーザー編集
-    resources :users, only: [:edit, :update,]
+    resources :users, only: [:index, :show,]
     # 投稿機能
     resources :posts
   end

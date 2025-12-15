@@ -1,32 +1,45 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   has_many :posts, dependent: :nullify
 
-  # is_active が false → true に変わるとき投稿も復帰
-  before_update :restore_posts_if_reactivated, if: :saved_change_to_is_active?
+  validates :name, presence: true
 
-  # Devise: ログイン可否判定（is_active が false のときログイン不可）
+  # is_active が false → true に戻ったとき投稿を復元
+  before_update :restore_posts_if_reactivated, if: :reactivating?
+
+  # Devise ログイン制御
   def active_for_authentication?
     super && is_active
   end
 
   def inactive_message
-    if !is_active?
-      :deleted_account
-    else
-      super
+    !is_active? ? :deleted_account : super
+  end
+
+  # =====================
+  # 論理削除・復活ロジック
+  # =====================
+
+  def withdraw!
+    transaction do
+      update!(is_active: false)
+      posts.update_all(deleted_at: Time.current)
     end
   end
 
   def restore_posts
     posts.where.not(deleted_at: nil).update_all(deleted_at: nil)
   end
-         
+
+  private
+
+  def restore_posts_if_reactivated
+    restore_posts
+  end
+
+  def reactivating?
+    saved_change_to_is_active? && is_active == true
+  end
 end

@@ -17,6 +17,7 @@
   <div class="card shadow-sm border-0">
     <div class="card-body">
 
+      <p><%= link_to @post.user.name, user_path %></p>
       <p class="text-muted small">
         投稿日：<%= l(@post.created_at, format: :long) %><br>
         更新日：<%= l(@post.updated_at, format: :long) %>
