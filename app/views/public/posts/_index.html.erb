@@ -1,0 +1,43 @@
+<div class="container mt-5">
+
+    <div class="row g-4">
+      <% posts.each do |post| %>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm border-0">
+
+            <div class="card-body">
+              <h5 class="card-title fw-bold">
+                <%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %>
+              </h5>
+
+
+
+              <p class="card-text text-muted small">
+                <%= truncate(post.body, length: 60) %>
+              </p>
+
+              <p class="text-muted small mb-1">
+                投稿者：
+                <% if post.user == current_user %>
+                  <%= link_to post.user.name, mypage_path %>
+                <% else %>
+                  <%= link_to post.user.name, user_path(post.user) %>
+                <% end %>
+              </p>
+
+              <p class="text-muted small mb-0">
+                投稿日：<%= l(post.created_at, format: :short) %>
+              </p>
+            </div>
+
+            <div class="card-footer bg-white border-0 text-end">
+              <%= link_to "詳細を見る", post_path(post), class: "btn btn-outline-primary btn-sm" %>
+            </div>
+
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+
+</div>

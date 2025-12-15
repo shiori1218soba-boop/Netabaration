@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <div class="row g-4">
+    <% users.each do |user| %>
+      <div class="col-md-6 col-lg-12 mb-4">
+        <div class="card h-100 shadow-sm border-0 position-relative flex-row">
+
+          <!-- カード本文 -->
+          <div class="card-body flex-grow-1">
+            <h5 class="card-title fw-bold">
+              <%= user.name %>
+            </h5>
+            <p class="card-text text-muted small">
+              <%= truncate(user.introduction, length: 60) %>
+            </p>
+          </div>
+
+          <!-- 画像（あれば） -->
+          <%# if user.avatar.attached? %>
+            <%#= image_tag user.avatar.variant(resize_to_fill: [120, 120]), class: "rounded-end", style: "object-fit: cover;" %>
+          <%# end %>
+
+          <!-- カード全体リンク -->
+          <% link_path = user == current_user ? mypage_path : user_path(user) %>
+          <%= link_to link_path, class: "stretched-link" do %>
+          <% end %>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

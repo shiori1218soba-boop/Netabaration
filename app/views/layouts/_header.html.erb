@@ -8,55 +8,45 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-
-        <!-- アバウト -->
+      <!-- 左側のナビ -->
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <%= link_to "About", about_path, class: "nav-link" %>
         </li>
 
         <% if user_signed_in? %>
-          <!-- ログイン時表示 -->
-
-          <!-- マイページ -->
           <li class="nav-item">
             <%= link_to "マイページ", mypage_path, class: "nav-link" %>
           </li>
-
-          <!-- 新規投稿 -->
           <li class="nav-item">
             <%= link_to "新規投稿", new_post_path, class: "nav-link" %>
           </li>
-
-          <!-- 投稿一覧 -->
           <li class="nav-item">
             <%= link_to "投稿一覧", posts_path, class: "nav-link" %>
           </li>
-
-          <!-- ログアウト -->
           <li class="nav-item">
             <%= link_to "ログアウト",
-              destroy_user_session_path,
-              method: :delete,
-              class: "nav-link text-danger" %>
+                        destroy_user_session_path,
+                        method: :delete,
+                        class: "nav-link text-danger" %>
           </li>
-
         <% else %>
-          <!-- ログアウト時表示 -->
-
-          <!-- 新規登録 -->
           <li class="nav-item">
             <%= link_to "新規登録", new_user_registration_path, class: "nav-link" %>
           </li>
-
-          <!-- ログイン -->
           <li class="nav-item">
             <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
           </li>
-
         <% end %>
-
       </ul>
+
+      <!-- 右側の検索フォーム -->
+      <% if user_signed_in? %>
+        <div class="d-flex">
+          <%= render 'layouts/search' %>
+        </div>
+      <% end %>
+
     </div>
   </div>
 </nav>

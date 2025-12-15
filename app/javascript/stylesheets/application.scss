@@ -1,1 +1,7 @@
 @use '~bootstrap/scss/bootstrap';
+
+.navbar .form-control,
+.navbar .form-select,
+.navbar .btn {
+  height: 38px; /* ナビリンクの高さに合わせる */
+}

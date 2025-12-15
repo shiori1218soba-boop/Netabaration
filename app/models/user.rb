@@ -18,6 +18,21 @@ class User < ApplicationRecord
     !is_active? ? :deleted_account : super
   end
 
+  # 検索機能
+  def self.search_for(content, method)
+    case method
+    when 'perfect'
+      User.where('name = ? OR introduction = ?', content, content)
+    when 'forward'
+      User.where('name LIKE ? OR introduction LIKE ?', content + '%', content + '%')
+    when 'backward'
+      User.where('name LIKE ? OR introduction LIKE ?', '%' + content, '%' + content)
+    else
+      User.where('name LIKE ? OR introduction LIKE ?', '%' + content + '%', '%' + content + '%')
+    end
+  end
+
+
   # =====================
   # 論理削除・復活ロジック
   # =====================
