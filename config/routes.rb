@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  # 検索機能
+  get '/search', to: 'searches#search'
+
   # Public 用の認証（URL に public は付かない）
   devise_for :users, module: "public", controllers: {
     registrations: "public/users/registrations",
