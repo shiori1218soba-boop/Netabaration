@@ -29,7 +29,9 @@ Rails.application.routes.draw do
     # ユーザー編集
     resources :users, only: [:index, :show,]
     # 投稿機能
-    resources :posts
+    resources :posts do
+      resources :post_comments, only: [:create, :destroy]
+    end
   end
 
 

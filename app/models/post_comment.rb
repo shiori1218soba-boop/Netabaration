@@ -1,0 +1,20 @@
+class PostComment < ApplicationRecord
+
+  belongs_to :user
+  belongs_to :post
+
+
+  scope :active, -> {
+    joins(:user, :post)
+      .where(
+        users: { deleted_at: nil },
+        posts: { deleted_at: nil },
+        post_comments: { deleted_at: nil }
+      )
+  }
+
+  def destroy
+    update(deleted_at: Time.current)
+  end
+  
+end

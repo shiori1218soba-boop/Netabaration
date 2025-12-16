@@ -3,19 +3,20 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :posts, dependent: :nullify
+  has_many :post_comments
+
+  # 論理削除されていないユーザー
+  scope :active, -> { where(deleted_at: nil) }
 
   validates :name, presence: true
 
-  # is_active が false → true に戻ったとき投稿を復元
-  before_update :restore_posts_if_reactivated, if: :reactivating?
-
   # Devise ログイン制御
   def active_for_authentication?
-    super && is_active
+    super && deleted_at.nil?
   end
 
   def inactive_message
-    !is_active? ? :deleted_account : super
+    deleted_at.nil? ? super : :deleted_account
   end
 
   # 検索機能
@@ -37,24 +38,26 @@ class User < ApplicationRecord
   # 論理削除・復活ロジック
   # =====================
 
-  def withdraw!
-    transaction do
-      update!(is_active: false)
-      posts.update_all(deleted_at: Time.current)
-    end
+
+  # 論理削除
+  def destroy
+    update(deleted_at: Time.current)
   end
 
-  def restore_posts
-    posts.where.not(deleted_at: nil).update_all(deleted_at: nil)
+  # 復活用（管理者・再アクティブ化用）
+  def restore
+    update(deleted_at: nil)
+  end
+
+  def active?
+    deleted_at.nil?
+  end
+
+  def withdraw!
+    update(deleted_at: Time.current)
   end
 
   private
 
-  def restore_posts_if_reactivated
-    restore_posts
-  end
-
-  def reactivating?
-    saved_change_to_is_active? && is_active == true
-  end
+  
 end
