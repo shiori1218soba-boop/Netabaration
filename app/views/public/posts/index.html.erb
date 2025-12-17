@@ -39,6 +39,11 @@
               <p class="text-muted small mb-0">
                 投稿日：<%= l(post.created_at, format: :short) %>
               </p>
+
+              <p>
+                <%= link_to "#{post.post_comments.active.count} 件のコメント", post_path(post.id) %>
+              </p>
+
             </div>
 
             <div class="card-footer bg-white border-0 text-end">

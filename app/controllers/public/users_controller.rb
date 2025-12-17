@@ -30,7 +30,6 @@ class Public::UsersController < ApplicationController
   # 更新処理
   def update
     @user = current_user
-    was_inactive = @user.is_active == false
 
     unless @user == current_user
       redirect_to mypage_path, alert: "不正なアクセスです"
@@ -38,11 +37,6 @@ class Public::UsersController < ApplicationController
     end
 
     if @user.update(user_params)
-      # 退会状態 → アクティブに戻った時だけ投稿も復元
-      if was_inactive && @user.is_active == true
-        @user.restore_posts
-      end
-
       flash[:notice] = "ユーザー情報を更新しました。"
       redirect_to mypage_path
     else
@@ -75,7 +69,7 @@ class Public::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :introduction, :is_active)
+    params.require(:user).permit(:name, :email, :introduction)
   end
 
 end

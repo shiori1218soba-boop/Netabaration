@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
+  has_many :post_comments
 
   
   validates :title, presence: true
@@ -19,10 +20,11 @@ class Post < ApplicationRecord
   end
 
   # 論理削除されていないものだけを取得するスコープ
-  scope :active, -> { where(deleted_at: nil) }
-
+  scope :active, -> {
+    joins(:user).where(deleted_at: nil, users: { deleted_at: nil })
+  }
   # 論理削除（通常の destroy をオーバーライド）
-  def destroy
+  def soft_delete
     update(deleted_at: Time.current)
   end
 

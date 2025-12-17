@@ -5,15 +5,13 @@ class Public::PostsController < ApplicationController
 
   def index
     # 論理削除されていない投稿だけを表示
-    @posts = Post.where(deleted_at: nil).includes(:user).order(created_at: :desc)
+    @posts = Post.active.includes(:user).order(created_at: :desc)
   end
 
   def show
     # @post = Post.find(params[:id])
-    # set_post で取得済み。削除済みなら 404 にする
-    if @post.deleted?
-      redirect_to public_posts_path, alert: "投稿が見つかりませんでした"
-    end
+    # set_post で取得済み
+    @post_comment = PostComment.new
   end
 
   def new
@@ -34,7 +32,7 @@ class Public::PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
+    @post.soft_delete
     redirect_to mypage_path, notice: "投稿を削除しました。"
   end
 
@@ -52,7 +50,7 @@ class Public::PostsController < ApplicationController
   private
 
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.active.find(params[:id])
   end
 
   def post_params
