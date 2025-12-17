@@ -1,22 +1,42 @@
 class Public::PostCommentsController < ApplicationController
 
+  before_action :authenticate_user!
+  before_action :set_post
+  before_action :set_comment, only: :destroy
+  before_action :authorize_user!, only: :destroy
+
   def create
-    post = Post.find(params[:post_id])
-    comment = current_user.post_comments.new(post_comment_params)
-    comment.post_id = post.id
-    comment.save
-    redirect_to post_path(post)
+    @comment = @post.post_comments.new(comment_params)
+    @comment.user = current_user
+    if comment.save
+      redirect_to post_path(post), notice: "コメントを投稿しました"
+    else
+      redirect_to post_path(post), alert: "コメントを投稿できませんでした"
+    end
   end
 
   def destroy
-    post_comment = current_user.post_comments.find(params[:id])
-    post_comment.update(is_active: false)
-    redirect_to post_path(post_comment.post)
+    @comment.soft_delete
+    redirect_to post_path(@post), notice: "コメントを削除しました"
   end
 
   private
 
-  def post_comment_params
+  def set_post
+    @post = Post.active.find(params[:post_id])
+  end
+
+  def set_comment
+    @comment = @post.post_comments.find(params[:id])
+  end
+
+  def authorize_user!
+    unless @comment.user_id == current_user.id
+      redirect_to post_path(@post), alert: "削除する権限がありません"
+    end
+  end
+
+  def comment_params
     params.require(:post_comment).permit(:comment)
   end
 
