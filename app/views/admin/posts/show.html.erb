@@ -1,0 +1,34 @@
+<h4>投稿詳細</h4>
+
+<p><strong>タイトル：</strong> <%= @post.title %></p>
+<p><strong>投稿者：</strong> <%= @post.user.name %></p>
+<p><strong>本文：</strong></p>
+<div class="border p-3 mb-3">
+  <%= simple_format(@post.body) %>
+</div>
+
+<p>
+  <strong>状態：</strong>
+  <% unless @post.deleted_at? %>
+    <span class="badge bg-success">表示中</span>
+  <% else %>
+    <span class="badge bg-secondary">非表示</span>
+  <% end %>
+</p>
+
+<%= form_with model: [:admin, @post],
+              method: :patch,
+              local: true do |f| %>
+
+  <% unless @post.deleted_at? %>
+    <%= f.submit "非表示にする",
+        class: "btn btn-danger" %>
+  <% else %>
+    <%= f.submit "再表示する",
+        class: "btn btn-success" %>
+  <% end %>
+<% end %>
+
+<hr>
+
+<%= link_to "一覧に戻る", admin_posts_path %>

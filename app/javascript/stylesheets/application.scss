@@ -5,3 +5,18 @@
 .navbar .btn {
   height: 38px; /* ナビリンクの高さに合わせる */
 }
+
+/* 管理画面：ユーザー一覧 hover */
+.admin-user-table tbody tr:hover > * {
+  background-color: #f8f9fa;
+}
+
+/* 見出しは絶対に変えない */
+.admin-user-table thead th {
+  background-color: #f8f9fa;
+}
+
+/* 行がクリック可能であることを明示 */
+.admin-user-table tbody tr {
+  cursor: pointer;
+}

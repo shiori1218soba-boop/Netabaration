@@ -1,7 +1,7 @@
 <div class="container mt-5">
 
     <div class="row g-4">
-      <% posts.each do |post| %>
+      <% @posts.each do |post| %>
         <div class="col-md-6 col-lg-4 mb-4">
           <div class="card h-100 shadow-sm border-0">
 
@@ -28,6 +28,11 @@
               <p class="text-muted small mb-0">
                 投稿日：<%= l(post.created_at, format: :short) %>
               </p>
+
+              <p>
+                <%= link_to "#{post.post_comments.active.count} 件のコメント", post_path(post.id) %>
+              </p>
+
             </div>
 
             <div class="card-footer bg-white border-0 text-end">
@@ -38,6 +43,7 @@
         </div>
       <% end %>
     </div>
+
 
 
 </div>

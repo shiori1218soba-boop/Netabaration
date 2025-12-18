@@ -1,0 +1,36 @@
+<table class="table align-middle admin-user-table">
+  <thead class="table-light">
+    <tr>
+      <th>ID</th>
+      <th>名前</th>
+      <th>Email</th>
+      <th>登録日</th>
+      <th>状態</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr
+        onclick="window.location='<%= admin_user_path(user) %>'"
+        style="cursor: pointer;"
+      >
+        <td><%= user.id %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= l user.created_at, format: :short %></td>
+        <td>
+          <% if user.deleted_at.present? %>
+            <span class="badge bg-secondary">退会</span>
+          <% else %>
+            <span class="badge bg-success">有効</span>
+          <% end %>
+        </td>
+
+
+      </tr>
+
+    <% end %>
+  </tbody>
+</table>
