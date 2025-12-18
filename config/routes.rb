@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  # 検索機能
-  get '/search', to: 'searches#search'
-
   # Public 用の認証（URL に public は付かない）
   devise_for :users, module: "public", controllers: {
     registrations: "public/users/registrations",
@@ -14,6 +11,9 @@ Rails.application.routes.draw do
     # Public のトップ・アバウト
     root to: 'homes#top'
     get '/about' => 'homes#about'
+
+    # 検索機能
+    get 'search', to: 'searches#search'
 
     get 'users/unsubscribe' => 'users#unsubscribe', as: :unsubscribe_user
     patch 'users/withdraw' => 'users#withdraw', as: :withdraw_user
@@ -39,9 +39,20 @@ Rails.application.routes.draw do
   # === Admin側（URL に /admin を付けたい） ===
   devise_for :admins, path: 'admin', controllers: {
     sessions: 'admin/sessions'
-  }
+  }, skip: [:registrations]
 
   namespace :admin do
     root 'homes#top'
+    # 検索機能
+    get 'search', to: 'searches#search'
+    resources :users, only: [:index, :show, :update]
+    resources :posts, only: [:index, :show, :update] do
+      resources :post_comments, only: [:index, :show] do
+        member do
+        patch :soft_delete
+        patch :restore
+        end
+      end
+    end
   end
 end

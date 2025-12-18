@@ -1,4 +1,18 @@
 ja:
+  devise:
+    failure:
+      admin:
+        not_found_in_database: "管理者アカウントが見つかりません"
+        unauthenticated: "管理者としてログインしてください。"
+      user:
+        unauthenticated: "ログインしてください。"
+
+    sessions:
+      signed_out: "ログアウトしました。"
+      admin:
+        signed_in: "管理者としてログインしました。"
+        signed_out: "管理者としてログアウトしました。"
+        
   time:
     formats:
       short: "%Y/%m/%d %H:%M"

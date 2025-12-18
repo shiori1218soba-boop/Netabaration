@@ -1,0 +1,9 @@
+<div class="container mt-5">
+  <% if @model == 'user' %>
+    <h3>"<%= @content %>"の検索結果</h3>
+    <%= render 'admin/users/user', users: @users, post: @post %>
+  <% elsif @model == 'post' %>
+    <h3>"<%= @content %>"の検索結果</h3>
+    <%= render 'admin/posts/post', posts: @posts %>
+  <% end %>
+</div>

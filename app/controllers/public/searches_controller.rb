@@ -1,4 +1,4 @@
-class SearchesController < ApplicationController
+class Public::SearchesController < ApplicationController
 	before_action :authenticate_user!
 
 	def search
@@ -6,9 +6,9 @@ class SearchesController < ApplicationController
 	  @content=params[:content]
 	  @method=params[:method]
 	  if @model == 'user'
-	    @records=User.search_for(@content,@method)
+	    @records = User.where(deleted_at: nil).search_for(@content,@method)
 	  else
-	    @records=Post.search_for(@content,@method)
+	    @posts=Post.search_for(@content,@method)
 	  end
 	end
 end

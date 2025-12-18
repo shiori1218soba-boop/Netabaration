@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h3 class="mb-4">ユーザー詳細</h3>
+
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+
+      <p><strong>ID：</strong> <%= @user.id %></p>
+      <p><strong>名前：</strong> <%= @user.name %></p>
+      <p><strong>Email：</strong> <%= @user.email %></p>
+      <p><strong>ユーザー紹介：</strong><br>
+        <%= simple_format(@user.introduction) %>
+      </p>
+      <p><strong>登録日：</strong>
+        <%= l @user.created_at, format: :long %>
+      </p>
+
+      <p><strong>状態：</strong>
+        <% if @user.deleted_at.present? %>
+          <span class="badge bg-secondary">退会</span>
+        <% else %>
+          <span class="badge bg-success">有効</span>
+        <% end %>
+      </p>
+    </div>
+  </div>
+
+  <!-- 管理操作 -->
+  <div class="d-flex gap-2">
+    <% if @user.deleted_at.present? %>
+      <%= button_to "利用再開",
+          admin_user_path(@user),
+          method: :patch,
+          params: { user: { deleted_at: false } },
+          class: "btn btn-success mr-3" %>
+    <% else %>
+      <%= button_to "退会させる",
+          admin_user_path(@user),
+          method: :patch,
+          params: { user: { deleted_at: true } },
+          data: { confirm: "本当に退会させますか？" },
+          class: "btn btn-danger mr-3" %>
+    <% end %>
+
+    <%= link_to "一覧へ戻る", admin_root_path, class: "btn btn-outline-secondary" %>
+  </div>
+</div>

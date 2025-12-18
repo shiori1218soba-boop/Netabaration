@@ -28,6 +28,12 @@ class Post < ApplicationRecord
     update(deleted_at: Time.current)
   end
 
+  # 復活用（管理者・再アクティブ化用）
+  def restore
+    update(deleted_at: nil)
+  end
+
+
   # 完全削除（必要なときに使う）
   def really_destroy!
     super.destroy
