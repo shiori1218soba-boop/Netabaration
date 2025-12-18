@@ -13,6 +13,7 @@ class Admin::PostsController < Admin::BaseController
   end
 
   def show
+    @post_comment = PostComment.all
   end
 
   def update
@@ -24,7 +25,7 @@ class Admin::PostsController < Admin::BaseController
   private
 
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.unscoped.find(params[:id])
   end
 
 end

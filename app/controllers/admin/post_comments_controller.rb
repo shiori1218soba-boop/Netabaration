@@ -1,39 +1,27 @@
 class Admin::PostCommentsController < Admin::BaseController
 
-  before_action :authenticate_user!
   before_action :set_post
   before_action :set_comment, only: :destroy
-  before_action :authorize_user!, only: :destroy
 
-  def create
-    @comment = @post.post_comments.new(comment_params)
-    @comment.user = current_user
-    if comment.save
-      redirect_to post_path(post), notice: "コメントを投稿しました"
-    else
-      redirect_to post_path(post), alert: "コメントを投稿できませんでした"
-    end
+
+  def soft_delete
+    set_comment.soft_delete
+    redirect_to admin_post_path(@post), notice: "コメントを非表示にしました"
   end
 
-  def destroy
-    @comment.soft_delete
-    redirect_to post_path(@post), notice: "コメントを削除しました"
+  def restore
+    set_comment.restore
+    redirect_to admin_post_path(@post), notice: "コメントを復元しました"
   end
 
   private
 
   def set_post
-    @post = Post.active.find(params[:post_id])
+    @post = Post.unscoped.find(params[:post_id])
   end
 
   def set_comment
     @comment = @post.post_comments.find(params[:id])
-  end
-
-  def authorize_user!
-    unless @comment.user_id == current_user.id
-      redirect_to post_path(@post), alert: "削除する権限がありません"
-    end
   end
 
   def comment_params

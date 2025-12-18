@@ -1,34 +1,71 @@
-<h4>投稿詳細</h4>
+<div class="container mt-5">
+  <h4>投稿詳細</h4>
 
-<p><strong>タイトル：</strong> <%= @post.title %></p>
-<p><strong>投稿者：</strong> <%= @post.user.name %></p>
-<p><strong>本文：</strong></p>
-<div class="border p-3 mb-3">
-  <%= simple_format(@post.body) %>
+  <p><strong>タイトル：</strong> <%= @post.title %></p>
+  <p><strong>投稿者：</strong> <%= @post.user.name %></p>
+  <p><strong>本文：</strong></p>
+  <div class="border p-3 mb-3">
+    <%= simple_format(@post.body) %>
+  </div>
+
+  <p>
+    <strong>状態：</strong>
+    <% if @post.deleted? %>
+      <span class="badge bg-secondary">非表示</span>
+    <% else %>
+      <span class="badge bg-success">表示中</span>
+    <% end %>
+  </p>
+
+  <%= form_with model: [:admin, @post],
+                method: :patch,
+                local: true do |f| %>
+
+    <% if @post.deleted? %>
+      <%= f.submit "再表示する", class: "btn btn-success" %>
+    <% else %>
+      <%= f.submit "非表示にする", class: "btn btn-danger" %>
+    <% end %>
+  <% end %>
+
+  <hr>
+
+  <!-- コメント一覧 -->
+  <h5>コメント一覧</h5>
+  <% @post.post_comments.each do |comment| %>
+    <div class="border p-3 mb-2 d-flex justify-content-between align-items-center">
+      <div>
+        <p><strong><%= comment.user.name %>:</strong><%= comment.post_id %></p>
+        <p><%= simple_format(comment.comment) %></p>
+        <p>
+          状態：
+          <% if comment.deleted? %>
+            <span class="badge bg-secondary">非表示</span>
+          <% else %>
+            <span class="badge bg-success">表示中</span>
+          <% end %>
+        </p>
+      </div>
+
+      <!-- コメント削除・復元ボタン -->
+      <div>
+        <% if comment.deleted? %>
+          <%= button_to "再表示する",
+                        restore_admin_post_post_comment_path(post_id: @post.id, id: comment.id),
+                        method: :patch,
+                        class: "btn btn-success btn-sm" %>
+        <% else %>
+          <%= button_to "非表示にする",
+                        soft_delete_admin_post_post_comment_path(post_id: @post.id, id: comment.id),
+                        method: :patch,
+                        class: "btn btn-danger btn-sm" %>
+        <% end %>
+
+      </div>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <%= link_to "一覧に戻る", admin_posts_path %>
 </div>
-
-<p>
-  <strong>状態：</strong>
-  <% unless @post.deleted_at? %>
-    <span class="badge bg-success">表示中</span>
-  <% else %>
-    <span class="badge bg-secondary">非表示</span>
-  <% end %>
-</p>
-
-<%= form_with model: [:admin, @post],
-              method: :patch,
-              local: true do |f| %>
-
-  <% unless @post.deleted_at? %>
-    <%= f.submit "非表示にする",
-        class: "btn btn-danger" %>
-  <% else %>
-    <%= f.submit "再表示する",
-        class: "btn btn-success" %>
-  <% end %>
-<% end %>
-
-<hr>
-
-<%= link_to "一覧に戻る", admin_posts_path %>
