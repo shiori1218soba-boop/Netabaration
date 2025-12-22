@@ -11,7 +11,8 @@ class Public::PostsController < ApplicationController
   def show
     # @post = Post.find(params[:id])
     # set_post で取得済み
-    @post_comment = PostComment.new
+    @comments = @post.post_comments.includes(:user)
+    @comment = PostComment.new
   end
 
   def new
