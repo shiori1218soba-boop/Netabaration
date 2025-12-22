@@ -5,7 +5,8 @@
 
   <%= f.text_field :content,
       class: "form-control form-control-sm me-2",
-      placeholder: "キーワード" %>
+      placeholder: "キーワード", 
+      required: true %>
 
   <%= f.select :model,
       options_for_select({"ユーザー"=>"user","投稿"=>"post"}),

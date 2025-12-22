@@ -13,6 +13,17 @@ ja:
         signed_in: "管理者としてログインしました。"
         signed_out: "管理者としてログアウトしました。"
         
+  activerecord:
+    attributes:
+      post_comment:
+        comment: コメント
+    errors:
+      models:
+        post_comment:
+          attributes:
+            comment:
+              blank: を入力してください
+        
   time:
     formats:
       short: "%Y/%m/%d %H:%M"
