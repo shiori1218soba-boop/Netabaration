@@ -1,2 +1,2 @@
-import "../stylesheets/admin.scss";
 import "./application";
+import "../stylesheets/admin.scss";
