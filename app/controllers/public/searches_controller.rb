@@ -8,7 +8,7 @@ class Public::SearchesController < ApplicationController
 	  if @model == 'user'
 	    @records = User.where(deleted_at: nil).search_for(@content,@method)
 	  else
-	    @posts=Post.search_for(@content,@method)
+	    @records = Post.search_for(@content,@method)
 	  end
 	end
 end

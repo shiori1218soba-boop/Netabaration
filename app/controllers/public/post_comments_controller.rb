@@ -8,10 +8,10 @@ class Public::PostCommentsController < ApplicationController
   def create
     @comment = @post.post_comments.new(comment_params)
     @comment.user = current_user
-    if comment.save
-      redirect_to post_path(post), notice: "コメントを投稿しました"
+    if @comment.save
+      redirect_to post_path(@post), notice: "コメントを投稿しました"
     else
-      redirect_to post_path(post), alert: "コメントを投稿できませんでした"
+      redirect_to post_path(@post), alert: "コメントを投稿できませんでした"
     end
   end
 
