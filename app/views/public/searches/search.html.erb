@@ -1,9 +1,9 @@
 <div class="container mt-5">
   <% if @model == 'user' %>
     <h3>"<%= @content %>"の検索結果</h3>
-    <%= render 'public/users/index', users: @users, post: @post %>
+    <%= render 'public/users/index', users: @records, post: @post %>
   <% elsif @model == 'post' %>
     <h3>"<%= @content %>"の検索結果</h3>
-    <%= render 'public/posts/index', posts: @posts %>
+    <%= render 'public/posts/index', posts: @records %>
   <% end %>
 </div>

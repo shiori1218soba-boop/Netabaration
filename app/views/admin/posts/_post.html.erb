@@ -14,7 +14,7 @@
     </thead>
 
     <tbody>
-      <% @posts.each do |post| %>
+      <% posts.each do |post| %>
         <tr
           onclick="window.location='<%= admin_post_path(post) %>'"
           style="cursor: pointer;"
