@@ -1,10 +1,11 @@
 class Post < ApplicationRecord
   belongs_to :user
+  belongs_to :group
+
   has_many :post_comments
 
   
-  validates :title, presence: true
-  validates :body, presence: true
+  validates :title, :body, presence: true
 
   # 検索機能
   def self.search_for(content, method)

@@ -1,0 +1,29 @@
+class Public::GroupsController < ApplicationController
+  def index
+    @groups = Group.all
+  end
+
+  def show
+    @group = Group.find(params[:id])
+    @posts = @group.posts.includes(:user)
+  end
+
+  def new
+    @group = Group.new
+  end
+
+  def create
+    @group = current_user.owned_groups.build(group_params)
+    if @group.save
+      redirect_to public_group_path(@group), notice: "グループを作成しました"
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def group_params
+    params.require(:group).permit(:name, :introduction)
+  end
+end
