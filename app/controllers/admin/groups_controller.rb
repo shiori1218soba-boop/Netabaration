@@ -1,11 +1,11 @@
-class Public::GroupsController < ApplicationController
+class Admin::GroupsController < ApplicationController
   def index
-    @groups = Group.all
+    @groups = Group.unscoped.all
   end
 
   def show
-    @group = Group.find(params[:id])
-    @posts = @group.posts.active.includes(:user)
+    @group = Group.unscoped.find(params[:id])
+    @posts = @group.posts.includes(:user)
   end
 
   def new
@@ -28,6 +28,12 @@ class Public::GroupsController < ApplicationController
     end
     redirect_to public_groups_path
   end
+  
+  def restore
+    Group.unscoped.find(params[:id]).restore
+    redirect_to admin_groups_path
+  end
+
 
   private
 

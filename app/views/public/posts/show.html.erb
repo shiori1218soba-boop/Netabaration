@@ -5,8 +5,8 @@
 
     <% if @post.user_id == current_user.id %>
       <div>
-        <%= link_to "編集", edit_post_path(@post), class: "btn btn-outline-primary btn-sm me-2" %>
-        <%= link_to "削除", post_path(@post),
+        <%= link_to "編集", edit_group_post_path(@post), class: "btn btn-outline-primary btn-sm me-2" %>
+        <%= link_to "削除", group_post_path(@post),
             method: :delete,
             data: { confirm: "本当に削除しますか？" },
             class: "btn btn-outline-danger btn-sm" %>
@@ -66,16 +66,16 @@
       </div>
 
       <div class="mt-4">
-        <% if flash[:alert] %>
+        <% if flash[:alert].present? %>
           <div class="alert alert-danger">
             <ul class="mb-0">
-              <% flash[:alert].each do |message| %>
+              <% Array(flash[:alert]).each do |message| %>
                 <li><%= message %></li>
               <% end %>
             </ul>
           </div>
         <% end %>
-        <%= form_with model: [@post, @comment], local: true do |f| %>
+        <%= form_with model: [@group, @post, @comment], local: true do |f| %>
           <div class="mb-3">
             <%= f.text_area :comment,
                 rows: 1,
@@ -95,7 +95,7 @@
   </div>
 
   <div class="mt-4">
-    <%= link_to "一覧に戻る", posts_path, class: "btn btn-secondary" %>
+    <%= link_to "一覧に戻る", group_posts_path, class: "btn btn-secondary" %>
   </div>
 
 </div>

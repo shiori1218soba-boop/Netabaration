@@ -1,2 +1,25 @@
-<h1>Public::Groups#show</h1>
-<p>Find me in app/views/public/groups/show.html.erb</p>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- グループ情報 -->
+    <div class="mb-1">
+      <h2><%= @group.name %></h2>
+      <p class="text-muted"><%= @group.introduction %></p>
+    </div>
+
+    <!-- 投稿作成ボタン -->
+    <div class="mb-5 text-end">
+      <%= link_to "新規投稿",
+                  new_group_post_path(@group),
+                  class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <!-- 投稿一覧 -->
+  <% if @posts.any? %>
+    <%= render 'public/posts/index', posts: @posts %>
+  <% else %>
+    <div class="alert alert-info">
+      まだ投稿はありません。
+    </div>
+  <% end %>
+</div>

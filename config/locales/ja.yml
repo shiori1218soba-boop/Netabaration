@@ -14,12 +14,19 @@ ja:
         signed_out: "管理者としてログアウトしました。"
         
   activerecord:
+    models:
+      group: グループ
     attributes:
+      group:
+        name: グループ名
+        introduction: グループ説明
       post_comment:
         comment: コメント
     errors:
+      messages:
+        blank: "を入力してください"
       models:
-        post_comment:
+        post_comment: 
           attributes:
             comment:
               blank: を入力してください
