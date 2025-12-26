@@ -8,6 +8,13 @@
   </div>
 
   <p>
+  <strong>所属グループ：</strong>
+  <%= link_to @post.group.name,
+        admin_group_path(@post.group),
+        class: "text-decoration-none fw-bold" %>
+  </p>
+
+  <p>
     <strong>状態：</strong>
     <% if @post.deleted? %>
       <span class="badge bg-secondary">非表示</span>
@@ -66,5 +73,5 @@
 
   <hr>
 
-  <%= link_to "一覧に戻る", admin_posts_path %>
+  <%= link_to "一覧に戻る", admin_posts_path, class: "btn btn-outline-secondary" %>
 </div>

@@ -25,9 +25,15 @@
           <%= link_to @post.user.name, user_path(@post.user) %>
         <% end %>
       </p>
-      <p class="text-muted small">
+      <p class="text-muted small mb-1">
         投稿日：<%= l(@post.created_at, format: :long) %><br>
         更新日：<%= l(@post.updated_at, format: :long) %>
+      </p>
+      <p class="text-muted small">
+        <span class="text-muted">所属グループ：</span>
+        <%= link_to @post.group.name,
+        group_path(@post.group),
+        class: "text-decoration-none fw-bold" %>
       </p>
 
       <hr>

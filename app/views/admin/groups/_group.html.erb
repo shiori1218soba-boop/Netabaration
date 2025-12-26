@@ -1,5 +1,4 @@
 <div class="container mt-5">
-  <h3 class="mb-4">グループ管理</h3>
 
   <table class="table align-middle admin-user-table">
     <thead>
@@ -11,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @groups.each do |group| %>
+      <% groups.each do |group| %>
         <tr
           onclick="window.location='<%= admin_group_path(group) %>'"
           style="cursor: pointer;"

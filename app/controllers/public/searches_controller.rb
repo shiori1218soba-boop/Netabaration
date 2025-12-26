@@ -9,10 +9,19 @@ class Public::SearchesController < ApplicationController
 	  @model=params[:model]
 	  @content=params[:content]
 	  @method=params[:method]
-	  if @model == 'user'
-	    @records = User.where(deleted_at: nil).search_for(@content,@method)
-	  else
-	    @records = Post.search_for(@content,@method)
-	  end
+
+    case @model
+    when 'user'
+      @records = User.where(deleted_at: nil)
+                     .search_for(@content, @method)
+
+    when 'group'
+      @records = Group.where(deleted_at: nil)
+                      .search_for(@content, @method)
+
+    else # 'post'
+      @records = Post.where(deleted_at: nil)
+											.search_for(@content, @method)
+    end
 	end
 end

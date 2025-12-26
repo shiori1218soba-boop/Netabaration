@@ -7,6 +7,9 @@
     <% elsif @model == 'post' %>
       <h3>"<%= @content %>"の検索結果</h3>
       <%= render 'public/posts/index', posts: @records %>
+    <% else %>
+      <h3>"<%= @content %>"の検索結果</h3>
+      <%= render 'public/groups/index', groups: @records %>
     <% end %>
 
   <% else %>
