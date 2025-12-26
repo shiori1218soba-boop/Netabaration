@@ -1,49 +1,53 @@
-<div class="container mt-5">
+<% if @posts.empty? %>
+  <div class="alert alert-info text-center">
+    投稿がありません。最初の投稿をしてみましょう！
+  </div>
+<% else %>
+  <div class="container mt-3">
 
-    <div class="row g-4">
-      <% posts.each do |post| %>
-        <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 shadow-sm border-0">
+      <div class="row g-4">
+        <% posts.each do |post| %>
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
 
-            <div class="card-body">
-              <h5 class="card-title fw-bold">
-                <%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %>
-              </h5>
+              <div class="card-body">
+                <h5 class="card-title fw-bold">
+                  <%= link_to post.title, group_post_path(post.group, post), class: "text-decoration-none text-dark" %>
+                </h5>
 
 
 
-              <p class="card-text text-muted small">
-                <%= truncate(post.body, length: 60) %>
-              </p>
+                <p class="card-text text-muted small">
+                  <%= truncate(post.body, length: 60) %>
+                </p>
 
-              <p class="text-muted small mb-1">
-                投稿者：
-                <% if post.user == current_user %>
-                  <%= link_to post.user.name, mypage_path %>
-                <% else %>
-                  <%= link_to post.user.name, user_path(post.user) %>
-                <% end %>
-              </p>
+                <p class="text-muted small mb-1">
+                  投稿者：
+                  <% if post.user == current_user %>
+                    <%= link_to post.user.name, mypage_path %>
+                  <% else %>
+                    <%= link_to post.user.name, user_path(post.user) %>
+                  <% end %>
+                </p>
 
-              <p class="text-muted small mb-0">
-                投稿日：<%= l(post.created_at, format: :short) %>
-              </p>
+                <p class="text-muted small mb-0">
+                  投稿日：<%= l(post.created_at, format: :short) %>
+                </p>
 
-              <p>
-                <%= link_to "#{post.post_comments.active.count} 件のコメント", post_path(post.id) %>
-              </p>
+                <p>
+                  <%= link_to "#{post.post_comments.active.count} 件のコメント", group_post_path(post.group, post) %>
+                </p>
+
+              </div>
+
+              <div class="card-footer bg-white border-0 text-end">
+                <%= link_to "詳細を見る", group_post_path(post.group, post), class: "btn btn-outline-primary btn-sm" %>
+              </div>
 
             </div>
-
-            <div class="card-footer bg-white border-0 text-end">
-              <%= link_to "詳細を見る", post_path(post), class: "btn btn-outline-primary btn-sm" %>
-            </div>
-
           </div>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
 
-
-
-</div>
+  </div>
+<% end %>

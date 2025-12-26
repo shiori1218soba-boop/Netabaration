@@ -1,7 +1,7 @@
 class Public::PostCommentsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :set_post
+  before_action :set_post_and_group
   before_action :set_comment, only: :destroy
   before_action :authorize_user!, only: :destroy
 
@@ -9,22 +9,23 @@ class Public::PostCommentsController < ApplicationController
     @comment = @post.post_comments.new(comment_params)
     @comment.user = current_user
     if @comment.save
-      redirect_to post_path(@post), notice: "コメントを投稿しました"
+      redirect_to group_post_path(@group, @post), notice: "コメントを投稿しました"
     else
       flash[:alert] = @comment.errors.full_messages
-      redirect_to post_path(@post)
+      redirect_to group_post_path(@group, @post)
     end
   end
 
   def destroy
     @comment.soft_delete
-    redirect_to post_path(@post), notice: "コメントを削除しました"
+    redirect_to group_post_path(@group, @post), notice: "コメントを削除しました"
   end
 
   private
 
-  def set_post
-    @post = Post.active.find(params[:post_id])
+  def set_post_and_group
+    @post = Post.find(params[:post_id])
+    @group = @post.group
   end
 
   def set_comment
@@ -33,7 +34,7 @@ class Public::PostCommentsController < ApplicationController
 
   def authorize_user!
     unless @comment.user_id == current_user.id
-      redirect_to post_path(@post), alert: "削除する権限がありません"
+      redirect_to group_post_path(@group, @post), alert: "削除する権限がありません"
     end
   end
 

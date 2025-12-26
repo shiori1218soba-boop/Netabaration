@@ -1,12 +1,18 @@
 <div class="container mt-5">
-  <h4>投稿詳細</h4>
 
-  <p><strong>タイトル：</strong> <%= @post.title %></p>
+  <h3><%= @post.title %></h3>
   <p><strong>投稿者：</strong> <%= @post.user.name %></p>
   <p><strong>本文：</strong></p>
   <div class="border p-3 mb-3">
     <%= simple_format(@post.body) %>
   </div>
+
+  <p>
+  <strong>所属グループ：</strong>
+  <%= link_to @post.group.name,
+        admin_group_path(@post.group),
+        class: "text-decoration-none fw-bold" %>
+  </p>
 
   <p>
     <strong>状態：</strong>
@@ -67,5 +73,5 @@
 
   <hr>
 
-  <%= link_to "一覧に戻る", admin_posts_path %>
+  <%= link_to "一覧に戻る", admin_posts_path, class: "btn btn-outline-secondary" %>
 </div>

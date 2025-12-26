@@ -4,6 +4,9 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :nullify
   has_many :post_comments
+  has_many :owned_groups,
+           class_name: "Group",
+           foreign_key: "owner_id"
 
   # 論理削除されていないユーザー
   scope :active, -> { where(deleted_at: nil) }
