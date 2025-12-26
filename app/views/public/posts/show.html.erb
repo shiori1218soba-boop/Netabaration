@@ -33,7 +33,7 @@
         <% if @post.user == current_user %>
           <%= link_to @post.user.name, mypage_path, class: "text-muted" %>
         <% else %>
-          <%= link_to @post.user.name, user_path(post.user), class: "text-muted" %>
+          <%= link_to @post.user.name, user_path(@post.user), class: "text-muted" %>
         <% end %>
       </div>
       <p class="text-muted small mb-1">
