@@ -4,6 +4,11 @@
     <div class="mb-1">
       <h2><%= @group.name %></h2>
       <p class="text-muted"><%= @group.introduction %></p>
+      <% if @group.owner_id == current_user.id %>
+        <%= link_to "編集",
+              edit_group_path(@group),
+              class: "btn btn-outline-primary btn-sm" %>
+      <% end %>
     </div>
 
     <!-- 投稿作成ボタン -->
@@ -12,6 +17,7 @@
                   new_group_post_path(@group),
                   class: "btn btn-primary" %>
     </div>
+
   </div>
 
   <!-- 投稿一覧 -->

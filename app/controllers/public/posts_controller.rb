@@ -1,7 +1,7 @@
 class Public::PostsController < ApplicationController
   before_action :authenticate_user!, only: [:show, :new, :create, :edit, :update, :destroy]
-   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :set_group
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
@@ -13,14 +13,23 @@ class Public::PostsController < ApplicationController
   end
 
   def show
-    # @post = Post.find(params[:id])
-    # set_post で取得済み
     @comments = @post.post_comments.includes(:user)
     @comment = PostComment.new
   end
 
   def new
-    @post = Post.new
+    @post = @group.posts.new
+  end
+
+  def create
+    @post = @group.posts.new(post_params)
+    @post.user = current_user
+
+    if @post.save
+      redirect_to group_post_path(@group, @post), notice: "投稿しました！"
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -29,7 +38,7 @@ class Public::PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to group_post_path(@post.group, @post), notice: "投稿を更新しました。"
+      redirect_to group_post_path(@group, @post), notice: "投稿を更新しました。"
     else
       flash.now[:alert] = "更新に失敗しました。"
       render :edit, status: :unprocessable_entity
@@ -41,17 +50,6 @@ class Public::PostsController < ApplicationController
     redirect_to group_path(@group), notice: "投稿を削除しました。"
   end
 
-  def create
-    @post = @group.posts.new(post_params)
-    @post.user_id = current_user.id
-
-    if @post.save
-      redirect_to group_post_path(@group, @post), notice: "投稿しました！"
-    else
-      render :new
-    end
-  end
-
   private
 
   def set_post
@@ -59,7 +57,11 @@ class Public::PostsController < ApplicationController
   end
 
   def set_group
-    @group = @post.group
+    if params[:group_id]
+      @group = Group.find(params[:group_id])
+    else
+      @group = @post.group
+    end
   end
 
   def post_params
