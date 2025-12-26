@@ -5,7 +5,25 @@
     <div class="card-body">
 
       <p><strong>ID：</strong> <%= @user.id %></p>
-      <p><strong>名前：</strong> <%= @user.name %></p>
+      <div class="d-flex align-items-center text-muted small mb-1">
+        <span class="me-1"><strong>名前：</strong></span>
+
+        <% if @user.profile_image.attached? %>
+          <%= image_tag post.user.profile_image,
+                size: "24x24",
+                class: "rounded-circle me-2" %>
+        <% else %>
+          <%= image_tag "default_user.png",
+                size: "24x24",
+                class: "rounded-circle me-2" %>
+        <% end %>
+
+        <% if @user == current_user %>
+          <%= link_to @user.name, mypage_path, class: "text-muted" %>
+        <% else %>
+          <%= link_to @user.name, user_path(@user), class: "text-muted" %>
+        <% end %>
+      </div>
       <p><strong>Email：</strong> <%= @user.email %></p>
       <p><strong>ユーザー紹介：</strong><br>
         <%= simple_format(@user.introduction) %>

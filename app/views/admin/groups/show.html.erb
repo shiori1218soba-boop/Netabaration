@@ -1,10 +1,19 @@
 <div class="container mt-5">
   <h3><%= @group.name %></h3>
 
-  <p class="text-muted">
-    オーナー：
+  <div class="d-flex align-items-center text-muted mb-1">
+      オーナー：
+    <% if @group.owner.profile_image.attached? %>
+      <%= image_tag user.profile_image,
+            size: "24x24",
+            class: "rounded-circle me-2" %>
+    <% else %>
+      <%= image_tag "default_user.png",
+            size: "24x24",
+            class: "rounded-circle me-2" %>
+    <% end %>
     <%= User.find(@group.owner_id).name %>
-  </p>
+  </div>
 
   <p><strong>グループ説明：</strong></p>
   <div class="border p-3 mb-3">
@@ -43,11 +52,23 @@
   <% @posts.each do |post| %>
     <div class="card mb-2">
       <div class="card-body">
-        <h6 class="fw-bold"><%= post.title %></h6>
+        <h6 class="fw-bold">
+          <%= link_to post.title, admin_post_path(post), class: "text-decoration-none text-dark" %>
+        </h6>
         <p class="mb-1"><%= truncate(post.body, length: 80) %></p>
-        <small class="text-muted">
-          投稿者：<%= post.user.name %>
-        </small>
+          <small class="d-flex align-items-center text-muted mb-1">
+            投稿者：
+            <% if @group.owner.profile_image.attached? %>
+              <%= image_tag user.profile_image,
+                    size: "24x24",
+                    class: "rounded-circle me-2" %>
+            <% else %>
+              <%= image_tag "default_user.png",
+                    size: "24x24",
+                    class: "rounded-circle me-2" %>
+            <% end %>
+            <%= post.user.name %>
+          </small>
       </div>
     </div>
   <% end %>

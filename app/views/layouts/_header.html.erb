@@ -27,6 +27,14 @@
                         method: :delete,
                         class: "nav-link text-danger" %>
           </li>
+
+        <ul class="ms-3">
+          <% if current_user.profile_image.attached? %>
+            <%= image_tag current_user.profile_image, size: "40x40", class: "rounded-circle" %>
+          <% else %>
+            <%= image_tag "default_user.png", size: "40x40", class: "rounded-circle" %>
+          <% end %>
+        </ul>
         <% else %>
           <li class="nav-item">
             <%= link_to "新規登録", new_user_registration_path, class: "nav-link" %>

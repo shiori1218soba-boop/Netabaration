@@ -21,6 +21,11 @@
         </div>
 
         <div class="mb-3">
+          <%= f.label :profile_image, "プロフィール画像" %>
+          <%= f.file_field :profile_image, accept: "image/*", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
           <%= f.label :email, "メールアドレス" %>
           <%= f.email_field :email, class: "form-control" %>
         </div>
