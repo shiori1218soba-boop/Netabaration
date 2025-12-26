@@ -4,6 +4,18 @@
     <div class="mb-1">
       <h2><%= @group.name %></h2>
       <p class="text-muted"><%= @group.introduction %></p>
+      <div class="d-flex align-items-center text-muted mb-1">
+        <% if @group.owner.profile_image.attached? %>
+          <%= image_tag @group.owner.profile_image,
+                size: "24x24",
+                class: "rounded-circle me-2" %>
+        <% else %>
+          <%= image_tag "default_user.png",
+                size: "24x24",
+                class: "rounded-circle me-2" %>
+        <% end %>
+        <%= @group.owner.name %>
+      </div>
       <% if @group.owner_id == current_user.id %>
         <%= link_to "編集",
               edit_group_path(@group),
