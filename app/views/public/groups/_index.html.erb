@@ -1,0 +1,26 @@
+<div class="container mt-5">
+
+  <div class="row">
+    <% groups.each do |group| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= group.name %>
+            </h5>
+
+            <p class="card-text text-muted">
+              <%= truncate(group.introduction, length: 80) %>
+            </p>
+          </div>
+
+          <div class="card-footer bg-white text-end">
+            <%= link_to "詳細を見る",
+                        group_path(group),
+                        class: "btn btn-outline-primary btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

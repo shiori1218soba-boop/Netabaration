@@ -1,0 +1,57 @@
+<div class="container mt-5">
+  <h3><%= @group.name %></h3>
+
+  <p class="text-muted">
+    オーナー：
+    <%= User.find(@group.owner_id).name %>
+  </p>
+
+  <p><strong>グループ説明：</strong></p>
+  <div class="border p-3 mb-3">
+    <%= simple_format(@group.introduction) %>
+  </div>
+
+  <p>
+    <strong>状態：</strong>
+    <% if @group.deleted? %>
+      <span class="badge bg-secondary">非表示</span>
+    <% else %>
+      <span class="badge bg-success">表示中</span>
+    <% end %>
+  </p>
+
+  <% if @group.deleted? %>
+    <%= button_to "再表示する",
+          restore_admin_group_path(@group),
+          method: :patch,
+          class: "btn btn-success" %>
+  <% else %>
+    <%= button_to "非表示にする",
+          admin_group_path(@group),
+          method: :delete,
+          data: { confirm: "本当に非表示にしますか？" },
+          class: "btn btn-danger" %>
+  <% end %>
+
+
+
+  <hr>
+
+
+  <h5>投稿一覧</h5>
+
+  <% @posts.each do |post| %>
+    <div class="card mb-2">
+      <div class="card-body">
+        <h6 class="fw-bold"><%= post.title %></h6>
+        <p class="mb-1"><%= truncate(post.body, length: 80) %></p>
+        <small class="text-muted">
+          投稿者：<%= post.user.name %>
+        </small>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to "一覧に戻る", admin_groups_path, class: "btn btn-outline-secondary" %>
+
+</div>

@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  namespace :admin do
+    get 'groups/index'
+    get 'groups/show'
+  end
+  namespace :public do
+    get 'groups/index'
+    get 'groups/show'
+  end
   # Public 用の認証（URL に public は付かない）
   devise_for :users, module: "public", controllers: {
     registrations: "public/users/registrations",
@@ -28,9 +36,12 @@ Rails.application.routes.draw do
     patch "users/withdraw",    to: "users#withdraw"
     # ユーザー編集
     resources :users, only: [:index, :show,]
+    # グループ機能
     # 投稿機能
-    resources :posts do
-      resources :post_comments, only: [:create, :destroy]
+    resources :groups do
+      resources :posts do
+        resources :post_comments, only: [:create, :destroy]
+      end
     end
   end
 
@@ -46,11 +57,16 @@ Rails.application.routes.draw do
     # 検索機能
     get 'search', to: 'searches#search'
     resources :users, only: [:index, :show, :update]
+    resources :groups, only: [:index, :show, :destroy] do
+      member do
+        patch :restore
+      end
+    end
     resources :posts, only: [:index, :show, :update] do
       resources :post_comments, only: [:index, :show] do
         member do
-        patch :soft_delete
-        patch :restore
+          patch :soft_delete
+          patch :restore
         end
       end
     end

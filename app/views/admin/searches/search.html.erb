@@ -6,10 +6,12 @@
     <% elsif @model == 'post' %>
       <h3>"<%= @content %>"の検索結果</h3>
       <%= render 'admin/posts/post', posts: @records %>
+    <% else %>
+      <%= render 'admin/groups/group', groups: @records %>
     <% end %>
 
   <% else %>
-
+  
     <div class="alert alert-info">
       検索結果は0件でした
     </div>

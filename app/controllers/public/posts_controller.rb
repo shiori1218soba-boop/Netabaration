@@ -1,11 +1,15 @@
 class Public::PostsController < ApplicationController
   before_action :authenticate_user!, only: [:show, :new, :create, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :set_group
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
     # 論理削除されていない投稿だけを表示
-    @posts = Post.active.includes(:user).order(created_at: :desc)
+    @posts = @group.posts
+                   .active
+                   .includes(:user)
+                   .order(created_at: :desc)
   end
 
   def show
@@ -25,7 +29,7 @@ class Public::PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to post_path(@post), notice: "投稿を更新しました。"
+      redirect_to group_post_path(@post), notice: "投稿を更新しました。"
     else
       flash.now[:alert] = "更新に失敗しました。"
       render :edit, status: :unprocessable_entity
@@ -34,15 +38,15 @@ class Public::PostsController < ApplicationController
 
   def destroy
     @post.soft_delete
-    redirect_to mypage_path, notice: "投稿を削除しました。"
+    redirect_to group_path(@group), notice: "投稿を削除しました。"
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = @group.posts.new(post_params)
     @post.user_id = current_user.id
 
     if @post.save
-      redirect_to post_path(@post), notice: "投稿しました！"
+      redirect_to group_post_path(@group, @post), notice: "投稿しました！"
     else
       render :new
     end
@@ -50,8 +54,12 @@ class Public::PostsController < ApplicationController
 
   private
 
+  def set_group
+    @group = Group.find(params[:group_id])
+  end
+
   def set_post
-    @post = Post.active.find(params[:id])
+    @post = @group.posts.active.find(params[:id])
   end
 
   def post_params
@@ -59,10 +67,9 @@ class Public::PostsController < ApplicationController
   end
 
   def correct_user
-    @post = Post.find(params[:id])
     unless @post.user_id == current_user.id
       flash[:alert] = "権限がありません。"
-      redirect_to posts_path
+      redirect_to group_path
     end
   end
 
