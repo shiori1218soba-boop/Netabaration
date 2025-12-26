@@ -1,2 +1,35 @@
-<h1>Admin::Groups#index</h1>
-<p>Find me in app/views/admin/groups/index.html.erb</p>
+<div class="container mt-5">
+  <h3 class="mb-4">グループ管理</h3>
+
+  <table class="table align-middle admin-user-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>グループ名</th>
+        <th>オーナー</th>
+        <th>状態</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @groups.each do |group| %>
+        <tr
+          onclick="window.location='<%= admin_group_path(group) %>'"
+          style="cursor: pointer;"
+        >
+          <td><%= group.id %></td>
+          <td><%= group.name %></td>
+          <td><%= group.owner.name %></td>
+          <td>
+            <% if group.deleted_at.present? %>
+              <span class="badge bg-danger">非表示</span>
+            <% else %>
+              <span class="badge bg-success">表示中</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+
+  </table>
+</div>

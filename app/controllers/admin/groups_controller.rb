@@ -1,4 +1,5 @@
-class Admin::GroupsController < ApplicationController
+class Admin::GroupsController < Admin::BaseController
+
   def index
     @groups = Group.unscoped.all
   end
@@ -8,30 +9,17 @@ class Admin::GroupsController < ApplicationController
     @posts = @group.posts.includes(:user)
   end
 
-  def new
-    @group = Group.new
-  end
-
-  def create
-    @group = current_user.owned_groups.build(group_params)
-    if @group.save
-      redirect_to group_path(@group), notice: "グループを作成しました"
-    else
-      render :new
-    end
-  end
 
   def destroy
-    @group = Group.find(params[:id])
-    if @group.owner == current_user
-      @group.soft_delete
-    end
-    redirect_to public_groups_path
+    group = Group.unscoped.find(params[:id])
+    group.soft_delete
+    redirect_to admin_group_path, notice: "グループを非表示にしました"
   end
-  
+
   def restore
-    Group.unscoped.find(params[:id]).restore
-    redirect_to admin_groups_path
+    group = Group.unscoped.find(params[:id])
+    group.restore
+    redirect_to admin_group_path, notice: "グループを再表示しました"
   end
 
 

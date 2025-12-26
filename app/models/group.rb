@@ -22,7 +22,7 @@ class Group < ApplicationRecord
     end
   end
 
-  def deleted
+  def deleted?
     deleted_at.present?
   end
 

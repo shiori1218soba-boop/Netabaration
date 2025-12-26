@@ -57,7 +57,11 @@ Rails.application.routes.draw do
     # 検索機能
     get 'search', to: 'searches#search'
     resources :users, only: [:index, :show, :update]
-    resources :groups, only: [:index, :show, :destroy]
+    resources :groups, only: [:index, :show, :destroy] do
+      member do
+        patch :restore
+      end
+    end
     resources :posts, only: [:index, :show, :update] do
       resources :post_comments, only: [:index, :show] do
         member do
