@@ -21,14 +21,25 @@
                   <%= truncate(post.body, length: 60) %>
                 </p>
 
-                <p class="text-muted small mb-1">
-                  投稿者：
-                  <% if post.user == current_user %>
-                    <%= link_to post.user.name, mypage_path %>
+                <div class="d-flex align-items-center text-muted small mb-1">
+                  <span class="me-1">投稿者：</span>
+
+                  <% if post.user.profile_image.attached? %>
+                    <%= image_tag post.user.profile_image,
+                          size: "24x24",
+                          class: "rounded-circle me-2" %>
                   <% else %>
-                    <%= link_to post.user.name, user_path(post.user) %>
+                    <%= image_tag "default_user.png",
+                          size: "24x24",
+                          class: "rounded-circle me-2" %>
                   <% end %>
-                </p>
+
+                  <% if post.user == current_user %>
+                    <%= link_to post.user.name, mypage_path, class: "text-muted" %>
+                  <% else %>
+                    <%= link_to post.user.name, user_path(post.user), class: "text-muted" %>
+                  <% end %>
+                </div>
 
                 <p class="text-muted small mb-0">
                   投稿日：<%= l(post.created_at, format: :short) %>

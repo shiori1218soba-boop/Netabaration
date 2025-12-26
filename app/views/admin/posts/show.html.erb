@@ -1,11 +1,36 @@
 <div class="container mt-5">
 
   <h3><%= @post.title %></h3>
-  <p><strong>投稿者：</strong> <%= @post.user.name %></p>
+  <div class="d-flex align-items-center mb-1">
+    <span class="me-1"><strong>投稿者：</strong></span>
+
+    <% if @post.user.profile_image.attached? %>
+      <%= image_tag @post.user.profile_image,
+            size: "24x24",
+            class: "rounded-circle me-2" %>
+    <% else %>
+      <%= image_tag "default_user.png",
+            size: "24x24",
+            class: "rounded-circle me-2" %>
+    <% end %>
+
+    <% if @post.user == current_user %>
+      <%= link_to @post.user.name, mypage_path, class: "text-muted" %>
+    <% else %>
+      <%= link_to @post.user.name, user_path(@post.user), class: "text-muted" %>
+    <% end %>
+  </div>
+  
   <p><strong>本文：</strong></p>
   <div class="border p-3 mb-3">
     <%= simple_format(@post.body) %>
   </div>
+
+  <% if @post.images.attached? %>
+    <% @post.images.each do |image| %>
+      <%= image_tag image, class: "img-fluid w-50 mb-3" %>
+    <% end %>
+  <% end %>
 
   <p>
   <strong>所属グループ：</strong>

@@ -30,6 +30,12 @@
           <%= f.text_area :body, class: "form-control", rows: 6, placeholder: "もっとネタバレをしよう！" %>
         </div>
 
+        <!-- 画像 -->
+        <div class="mb-3">
+          <%= f.label :image, "画像" %>
+          <%= f.file_field :image, multiple: true, accept: "image/*", class: "form-control" %>
+        </div>
+
         <div class="text-end">
           <%= f.submit "投稿する", class: "btn btn-primary px-4" %>
         </div>
