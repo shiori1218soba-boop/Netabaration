@@ -49,6 +49,8 @@
                   <%= link_to "#{post.post_comments.active.count} 件のコメント", group_post_path(post.group, post) %>
                 </p>
 
+                <%= render "public/favorites/favorite", post: post, group: group %>
+
               </div>
 
               <div class="card-footer bg-white border-0 text-end">

@@ -34,7 +34,7 @@
 
   <!-- 投稿一覧 -->
   <% if @posts.any? %>
-    <%= render 'public/posts/index', posts: @posts %>
+    <%= render 'public/posts/index', posts: @posts, post: @post, group: @group%>
   <% else %>
     <div class="alert alert-info">
       まだ投稿はありません。

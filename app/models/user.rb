@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :posts, dependent: :nullify
   has_many :post_comments
   has_many :favorites
+  has_many :favorite_posts, through: :favorites, source: :post
   has_many :owned_groups,
            class_name: "Group",
            foreign_key: "owner_id"
