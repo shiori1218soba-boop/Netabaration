@@ -38,9 +38,11 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show,]
     # グループ機能
     # 投稿機能
+    resources :favorites, only: [:index]
     resources :groups do
       resources :posts do
         resources :post_comments, only: [:create, :destroy]
+        resource :favorite, only: [:create, :destroy]
       end
     end
   end

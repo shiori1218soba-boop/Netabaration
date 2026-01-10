@@ -42,4 +42,7 @@
   <% if @posts.empty? %>
     <p class="text-muted">投稿はまだありません。</p>
   <% end %>
+
+  <!-- いいねした投稿一覧へ -->
+  <%= link_to "いいねした投稿一覧へ", favorites_path %>
 </div>

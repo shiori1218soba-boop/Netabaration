@@ -60,6 +60,11 @@
       <% end %>
 
       <div class="mt-4">
+
+        <div class="mb-4">
+          <%= render "public/favorites/favorite", post: @post, group: @group %>
+        </div>
+
         <h5>コメント（<%= @post.post_comments.active.count %>件）</h5>
 
         <% @post.post_comments.active.each do |post_comment| %>

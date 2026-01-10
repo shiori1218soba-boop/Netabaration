@@ -1,0 +1,16 @@
+<% if current_user.favorites.exists?(post: post) %>
+  <%= link_to "★ いいね解除",
+      group_post_favorite_path(post.group, post),
+      method: :delete,
+      class: "btn btn-warning" %>
+<% else %>
+  <%= link_to "☆ いいね",
+      group_post_favorite_path(post.group, post),
+      method: :post,
+      class: "btn btn-outline-warning" %>
+<% end %>
+
+
+<span class="ms-3">
+  <%= post.favorites.count %> 件
+</span>
