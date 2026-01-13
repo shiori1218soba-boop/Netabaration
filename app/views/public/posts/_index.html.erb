@@ -1,4 +1,4 @@
-<% if @posts.empty? %>
+<% if posts.empty? %>
   <div class="alert alert-info text-center">
     投稿がありません。最初の投稿をしてみましょう！
   </div>
@@ -49,7 +49,7 @@
                   <%= link_to "#{post.post_comments.active.count} 件のコメント", group_post_path(post.group, post) %>
                 </p>
 
-                <%= render "public/favorites/favorite", post: post, group: group %>
+                <%= render "public/favorites/favorite", post: post %>
 
               </div>
 
