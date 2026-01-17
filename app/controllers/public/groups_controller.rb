@@ -4,11 +4,11 @@ class Public::GroupsController < ApplicationController
   before_action :ensure_owner, only: [:edit, :update]
 
   def index
-    @groups = Group.all
+    @groups = Group.all.order(created_at: :desc)
   end
 
   def show
-    @posts = @group.posts.active.includes(:user)
+    @posts = @group.posts.active.includes(:user).order(created_at: :desc)
   end
 
   def new
