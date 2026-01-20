@@ -41,7 +41,7 @@ class Public::GroupsController < ApplicationController
     if @group.owner == current_user
       @group.soft_delete
     end
-    redirect_to public_groups_path
+    redirect_to groups_path(@group)
   end
 
   private
@@ -52,7 +52,7 @@ class Public::GroupsController < ApplicationController
 
   def ensure_owner
     unless @group.owner_id == current_user.id
-      redirect_to public_group_path(@group), alert: "編集権限がありません"
+      redirect_to group_path(@group), alert: "編集権限がありません"
     end
   end
 
