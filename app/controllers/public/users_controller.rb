@@ -1,5 +1,7 @@
 class Public::UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_current_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update]
 
   # マイページ
   def mypage
@@ -15,27 +17,15 @@ class Public::UsersController < ApplicationController
   end
 
   def index
-    @user = User.all
+    @users = User.all
   end
 
   # ユーザー編集
   def edit
-    @user = current_user
-
-    unless @user == current_user
-      redirect_to mypage_path, alert: "不正なアクセスです"
-    end
   end
 
   # 更新処理
   def update
-    @user = current_user
-
-    unless @user == current_user
-      redirect_to mypage_path, alert: "不正なアクセスです"
-      return
-    end
-
     if @user.update(user_params)
       flash[:notice] = "ユーザー情報を更新しました。"
       redirect_to mypage_path
@@ -70,6 +60,14 @@ class Public::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :introduction, :profile_image)
+  end
+
+  def set_current_user
+    @user = current_user
+  end
+
+  def correct_user
+    redirect_to mypage_path, alert: "不正なアクセスです" unless @user == current_user
   end
 
 end
