@@ -47,7 +47,7 @@ class Public::GroupsController < ApplicationController
   private
 
   def set_group
-    @group = @post.group
+    @group = Group.find(params[:id])
   end
 
   def ensure_owner
