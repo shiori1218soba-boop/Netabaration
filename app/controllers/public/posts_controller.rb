@@ -1,7 +1,7 @@
 class Public::PostsController < ApplicationController
   before_action :authenticate_user!, only: [:show, :new, :create, :edit, :update, :destroy]
-  before_action :set_group
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_group
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
@@ -57,11 +57,7 @@ class Public::PostsController < ApplicationController
   end
 
   def set_group
-    if params[:group_id]
-      @group = Group.find(params[:group_id])
-    else
-      @group = @post.group
-    end
+    @group = @post.group
   end
 
   def post_params
