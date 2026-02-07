@@ -1,4 +1,9 @@
 ja:
+  errors:
+    template:
+      header:
+        one: "%{model}にエラーがあります"
+        other: "%{model}に%{count}件のエラーがあります"
   devise:
     failure:
       admin:
@@ -16,10 +21,15 @@ ja:
   activerecord:
     models:
       group: グループ
+      user: ユーザー
     attributes:
       group:
         name: グループ名
         introduction: グループ説明
+      user:
+        email: メールアドレス
+        password: パスワード
+        name: 名前
       post_comment:
         comment: コメント
     errors:
