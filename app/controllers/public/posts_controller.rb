@@ -10,6 +10,8 @@ class Public::PostsController < ApplicationController
                    .active
                    .includes(:user)
                    .order(created_at: :desc)
+                   .page(params[:page])
+                   .per(9)
   end
 
   def show

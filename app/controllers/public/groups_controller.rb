@@ -8,7 +8,11 @@ class Public::GroupsController < ApplicationController
   end
 
   def show
-    @posts = @group.posts.active.includes(:user).order(created_at: :desc)
+    @posts = @group.posts
+                   .active.includes(:user)
+                   .order(created_at: :desc)
+                   .page(params[:page])
+                   .per(9)
   end
 
   def new
